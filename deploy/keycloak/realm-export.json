@@ -1,0 +1,84 @@
+{
+  "realm": "sentinel-lens",
+  "enabled": true,
+  "displayName": "Sentinel Lens SSO",
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Full administrator permissions for sessions, runner configs, and audit logs"
+      },
+      {
+        "name": "operator",
+        "description": "Operator permissions to launch sessions, execute agent steps, and run evaluations"
+      },
+      {
+        "name": "viewer",
+        "description": "Read-only access to test traces, session metrics, and replay history"
+      }
+    ]
+  },
+  "groups": [],
+  "defaultRoles": [
+    "viewer"
+  ],
+  "clients": [
+    {
+      "clientId": "sentinel-lens-app",
+      "name": "Sentinel Lens Web & API Client",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://127.0.0.1:3000/*",
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://127.0.0.1:3000",
+        "http://localhost:3000"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://127.0.0.1:3000/*"
+      }
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "enterprise-saml-idp",
+      "displayName": "Enterprise SAML Broker",
+      "providerId": "saml",
+      "enabled": false,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "entityId": "http://127.0.0.1:8080/realms/sentinel-lens",
+        "singleSignOnServiceUrl": "https://idp.example.com/saml2/sso",
+        "nameIDPolicyFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+        "signatureAlgorithm": "RSA_SHA256",
+        "xmlSigKeyInfoKeyNameTransformer": "KEY_ID",
+        "allowCreate": "true",
+        "wantAuthnRequestsSigned": "true",
+        "wantAssertionsSigned": "true",
+        "wantAssertionsEncrypted": "false",
+        "forceAuthn": "false",
+        "postBindingResponse": "true",
+        "postBindingAuthnRequest": "true",
+        "validateSignature": "true"
+      }
+    }
+  ]
+}
