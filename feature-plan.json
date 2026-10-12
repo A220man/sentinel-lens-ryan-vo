@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "current_feature": "open-session-runner-host",
+  "features": [
+    {
+      "id": "open-session-runner-host",
+      "title": "Programmatic runner session embedding via openSession API",
+      "status": "done",
+      "acceptance": [
+        "External test runners (Pytest, Vitest, Playwright) can embed an e2e session using open_session() with custom target, working directory, and step progress callback",
+        "Session manages complete fixture graph (agent, app, screen, device, network) with idempotent cleanup on exit",
+        "Secret redaction filter scrubs credentials, API keys, and authorization headers from logs and step artifacts",
+        "REST API exposes full session lifecycle: creation, step execution, telemetry collection, and trace export"
+      ],
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/core/runner.py",
+        "backend/app/services/session_service.py",
+        "backend/app/api/sessions.py"
+      ],
+      "tests": [
+        "backend/tests/test_runner_session.py",
+        "backend/tests/test_api_workflows.py"
+      ]
+    },
+    {
+      "id": "agentic-visual-grounding",
+      "title": "Agentic multimodal assertion grounding and semantic locator hierarchy",
+      "status": "planned",
+      "acceptance": [
+        "Accessibility tree parser ranks candidate elements using deterministic role and name heuristics offline",
+        "Opt-in multi-provider LLM adapter supports OpenAI, Anthropic, Gemini, and Ollama with error redaction",
+        "Visual difference scoring detects UI regressions and layout shifts across session checkpoints"
+      ]
+    },
+    {
+      "id": "replay-evaluation-benchmark",
+      "title": "Deterministic replay telemetry and AI/ML locator benchmark suite",
+      "status": "planned",
+      "acceptance": [
+        "Deterministic test replay reconstructs session step timelines and artifact bundles",
+        "Reproducible benchmark measures semantic locator accuracy vs baseline fuzzy matching across labeled UI workflows"
+      ]
+    },
+    {
+      "id": "enterprise-auth-saml-broker",
+      "title": "Keycloak OIDC authentication and upstream SAML IdP broker",
+      "status": "planned",
+      "acceptance": [
+        "PKCE authorization code flow with state validation and JWKS token verification",
+        "Role-based access control rejecting unauthenticated and unauthorized requests",
+        "Production startup safety refusing local demo mode in production environments"
+      ]
+    }
+  ]
+}

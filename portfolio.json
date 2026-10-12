@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "sentinel-lens-ryan-vo",
+  "owner": "A220man",
+  "email": "ryandtvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: sentinel-lens-ryan-vo",
+  "workflows": [
+    "Programmatic runner embedding and fixture lifecycle management via openSession",
+    "Agentic multimodal test execution with visual assertion and semantic DOM verification",
+    "Deterministic execution trace capture, step recording, artifact bundling, and replay telemetry"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}
