@@ -24,27 +24,39 @@ Tests: `backend/tests/test_runner_session.py`, `backend/tests/test_api_workflows
 
 ### agentic-visual-grounding — Agentic multimodal assertion grounding and semantic locator hierarchy
 
-Status: planned
+Status: done
 
 Acceptance:
 - Accessibility tree parser ranks candidate elements using deterministic role and name heuristics offline
 - Opt-in multi-provider LLM adapter supports OpenAI, Anthropic, Gemini, and Ollama with error redaction
 - Visual difference scoring detects UI regressions and layout shifts across session checkpoints
 
+Implementation: `backend/app/services/semantic_locator.py`, `backend/app/services/llm_adapters.py`, `backend/app/api/sessions.py`
+
+Tests: `backend/tests/test_semantic_locator.py`, `backend/tests/test_llm_adapters.py`
+
 ### replay-evaluation-benchmark — Deterministic replay telemetry and AI/ML locator benchmark suite
 
-Status: planned
+Status: done
 
 Acceptance:
 - Deterministic test replay reconstructs session step timelines and artifact bundles
 - Reproducible benchmark measures semantic locator accuracy vs baseline fuzzy matching across labeled UI workflows
 
+Implementation: `backend/app/services/evaluation_service.py`, `backend/app/evaluation_runner.py`, `backend/app/api/evaluations.py`
+
+Tests: `backend/tests/test_api_workflows.py::test_evaluation_benchmark_workflow`
+
 ### enterprise-auth-saml-broker — Keycloak OIDC authentication and upstream SAML IdP broker
 
-Status: planned
+Status: done
 
 Acceptance:
 - PKCE authorization code flow with state validation and JWKS token verification
 - Role-based access control rejecting unauthenticated and unauthorized requests
 - Production startup safety refusing local demo mode in production environments
+
+Implementation: `backend/app/core/security.py`, `backend/app/core/config.py`, `backend/app/api/auth.py`, `deploy/keycloak/realm-export.json`
+
+Tests: `backend/tests/test_security_auth.py`
 
