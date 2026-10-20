@@ -26,30 +26,56 @@
     {
       "id": "agentic-visual-grounding",
       "title": "Agentic multimodal assertion grounding and semantic locator hierarchy",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Accessibility tree parser ranks candidate elements using deterministic role and name heuristics offline",
         "Opt-in multi-provider LLM adapter supports OpenAI, Anthropic, Gemini, and Ollama with error redaction",
         "Visual difference scoring detects UI regressions and layout shifts across session checkpoints"
+      ],
+      "implementation": [
+        "backend/app/services/semantic_locator.py",
+        "backend/app/services/llm_adapters.py",
+        "backend/app/api/sessions.py"
+      ],
+      "tests": [
+        "backend/tests/test_semantic_locator.py",
+        "backend/tests/test_llm_adapters.py"
       ]
     },
     {
       "id": "replay-evaluation-benchmark",
       "title": "Deterministic replay telemetry and AI/ML locator benchmark suite",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "Deterministic test replay reconstructs session step timelines and artifact bundles",
         "Reproducible benchmark measures semantic locator accuracy vs baseline fuzzy matching across labeled UI workflows"
+      ],
+      "implementation": [
+        "backend/app/services/evaluation_service.py",
+        "backend/app/evaluation_runner.py",
+        "backend/app/api/evaluations.py"
+      ],
+      "tests": [
+        "backend/tests/test_api_workflows.py::test_evaluation_benchmark_workflow"
       ]
     },
     {
       "id": "enterprise-auth-saml-broker",
       "title": "Keycloak OIDC authentication and upstream SAML IdP broker",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "PKCE authorization code flow with state validation and JWKS token verification",
         "Role-based access control rejecting unauthenticated and unauthorized requests",
         "Production startup safety refusing local demo mode in production environments"
+      ],
+      "implementation": [
+        "backend/app/core/security.py",
+        "backend/app/core/config.py",
+        "backend/app/api/auth.py",
+        "deploy/keycloak/realm-export.json"
+      ],
+      "tests": [
+        "backend/tests/test_security_auth.py"
       ]
     }
   ]
