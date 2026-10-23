@@ -6,6 +6,7 @@ export const EvaluationDashboard: React.FC = () => {
   const [evaluations, setEvaluations] = useState<Evaluation[]>([]);
   const [activeEval, setActiveEval] = useState<Evaluation | null>(null);
   const [running, setRunning] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadEvaluations = async () => {
@@ -38,6 +39,27 @@ export const EvaluationDashboard: React.FC = () => {
     }
   };
 
+  const handleExportEvaluation = async () => {
+    if (!activeEval) return;
+    setExporting(true);
+    try {
+      const data = JSON.stringify(activeEval, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `evaluation-${activeEval.benchmark_name}-${activeEval.id}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      alert(`Export failed: ${err.message}`);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Metrics Banner */}
@@ -51,9 +73,16 @@ export const EvaluationDashboard: React.FC = () => {
               Deterministic Accessibility Hierarchy Locator compared against Naive Fuzzy Matcher baseline.
             </p>
           </div>
-          <button className="btn btn-primary" onClick={handleRunBenchmark} disabled={running}>
-            {running ? 'Running Benchmark...' : 'Run Benchmark'}
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button className="btn btn-primary" onClick={handleRunBenchmark} disabled={running}>
+              {running ? 'Running Benchmark...' : 'Run Benchmark'}
+            </button>
+            {activeEval && (
+              <button className="btn btn-secondary" onClick={handleExportEvaluation} disabled={exporting}>
+                {exporting ? 'Exporting...' : 'Export JSON'}
+              </button>
+            )}
+          </div>
         </div>
 
         {error && <div className="alert-box alert-error">{error}</div>}
