@@ -1,6 +1,21 @@
 # Changelog
 
-## 1.2.0 — work-in-progress checkpoint
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+### Added
+- Evaluation runner CLI now supports `--json` flag for CI/CD machine-readable output
+- Evaluation runner CLI supports `--output` flag to write JSON results to file
+- Evaluation runner CLI supports `--target` flag for web/mobile_android/mobile_ios environments
+- New `run_benchmark_json()` function for programmatic access to benchmark results
+- Default human-readable output preserved for interactive use
+
+### Changed
+- Updated PLAN.md with evaluation-ci-integration feature completion
+
+### Fixed
+- All 27 backend tests pass with enhanced evaluation runner
 
 Partial code published for continued development. Known issues: STATUS.md.
 
