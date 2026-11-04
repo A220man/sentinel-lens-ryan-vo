@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-open-session-runner-host
+redaction-pipeline-fixes
 
 ## Roadmap
 
@@ -59,4 +59,18 @@ Acceptance:
 Implementation: `backend/app/core/security.py`, `backend/app/core/config.py`, `backend/app/api/auth.py`, `deploy/keycloak/realm-export.json`
 
 Tests: `backend/tests/test_security_auth.py`
+
+### redaction-pipeline-fixes — Secret redaction pipeline consistency and key matching precision
+
+Status: in_progress
+
+Acceptance:
+- Bearer token redaction produces consistent [REDACTED_CREDENTIAL] marker matching test expectations
+- Redaction is idempotent: re-redacting already redacted text does not change output
+- Generic secret patterns (api_key=value, secret_key: "value", access_token='value') are redacted in raw text
+- Sensitive key matching uses exact/prefix/suffix boundaries to avoid false positives on substrings (e.g., 'author_name' not redacted for 'auth')
+
+Implementation: `backend/app/core/redaction.py`
+
+Tests: `backend/tests/test_redaction.py`
 

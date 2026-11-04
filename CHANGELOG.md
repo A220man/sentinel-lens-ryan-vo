@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.4.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+## 1.3.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
+### Fixed
+- Secret redaction pipeline: Bearer token redaction now consistently produces `[REDACTED_CREDENTIAL]` marker (was `[REDACTED_TOKEN]`)
+- Redaction is now idempotent: re-redacting already redacted text does not change output
+- Generic secret patterns (api_key=value, secret_key: "value", access_token='value') are now redacted in raw text
+- Sensitive key matching uses exact/prefix/suffix boundaries to avoid false positives on substrings (e.g., 'author_name' not redacted for 'auth')
+
+### Added
+- Test coverage for redaction pipeline: idempotent redaction, generic secret patterns, key matching precision, Basic auth, Proxy-Authorization
+
+### Changed
+- Updated PLAN.md and feature-plan.json with redaction-pipeline-fixes feature
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.3.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
