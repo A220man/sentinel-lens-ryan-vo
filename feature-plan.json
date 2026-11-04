@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "open-session-runner-host",
+  "current_feature": "redaction-pipeline-fixes",
   "features": [
     {
       "id": "open-session-runner-host",
@@ -76,6 +76,23 @@
       ],
       "tests": [
         "backend/tests/test_security_auth.py"
+      ]
+    },
+    {
+      "id": "redaction-pipeline-fixes",
+      "title": "Secret redaction pipeline consistency and key matching precision",
+      "status": "in_progress",
+      "acceptance": [
+        "Bearer token redaction produces consistent [REDACTED_CREDENTIAL] marker matching test expectations",
+        "Redaction is idempotent: re-redacting already redacted text does not change output",
+        "Generic secret patterns (api_key=value, secret_key: \"value\", access_token='value') are redacted in raw text",
+        "Sensitive key matching uses exact/prefix/suffix boundaries to avoid false positives on substrings (e.g., 'author_name' not redacted for 'auth')"
+      ],
+      "implementation": [
+        "backend/app/core/redaction.py"
+      ],
+      "tests": [
+        "backend/tests/test_redaction.py"
       ]
     }
   ]
