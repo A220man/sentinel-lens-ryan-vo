@@ -44,13 +44,35 @@ class RedactionFilter:
             self.sensitive_keys.update(k.lower() for k in additional_sensitive_keys)
 
     def _is_sensitive_key(self, key: str) -> bool:
-        """Check if a key name exactly matches or is a known sensitive prefix."""
+        """Check if a key name exactly matches a sensitive key, or has a component
+        that exactly matches a sensitive word, provided no other component contains
+        a sensitive word as a substring.
+        This avoids false positives like 'authenticity_token' where 'token' is a component
+        but 'authenticity' contains 'auth' as a substring.
+        """
         lower_key = key.lower()
-        # Exact match or known prefixes that indicate sensitivity
-        for sensitive in self.sensitive_keys:
-            if lower_key == sensitive or lower_key.startswith(sensitive + "_") or lower_key.endswith("_" + sensitive):
-                return True
-        return False
+        
+        # Exact match against full sensitive key names (including multi-word like api_key)
+        if lower_key in self.sensitive_keys:
+            return True
+        
+        # Check component-based matching for single-word sensitive keys
+        components = lower_key.split("_")
+        
+        # Check if any component exactly matches a sensitive word
+        has_exact_match = any(comp in self.sensitive_keys for comp in components)
+        if not has_exact_match:
+            return False
+        
+        # Check if any other component contains a sensitive word as substring
+        for comp in components:
+            if comp in self.sensitive_keys:
+                continue  # This is the exact match component, skip
+            for sensitive in self.sensitive_keys:
+                if sensitive in comp:
+                    return False  # Another component contains sensitive word → likely compound name
+        return True
+
 
     def redact_text(self, text: str) -> str:
         """Applies regex scrubbers to raw string content."""
@@ -58,11 +80,16 @@ class RedactionFilter:
             return text
 
         result = text
-        # Auth header pattern runs first to catch "Authorization: Bearer <token>"
-        result = AUTH_HEADER_PATTERN.sub(r"\1: \2 [REDACTED_CREDENTIAL]", result)
+        # Basic auth pattern runs first to catch "Basic <credentials>" and produce [REDACTED_AUTH]
+        result = BASIC_PATTERN.sub("Basic [REDACTED_AUTH]", result)
+        # Auth header pattern for Bearer tokens only (basic handled above)
+        result = re.sub(
+            r"(?i)(authorization|proxy-authorization)\s*:\s*bearer\s+[^\s,]+",
+            r"\1: Bearer [REDACTED_CREDENTIAL]",
+            result
+        )
         # Bearer pattern should not match already redacted tokens
         result = BEARER_PATTERN.sub("Bearer [REDACTED_CREDENTIAL]", result)
-        result = BASIC_PATTERN.sub("Basic [REDACTED_AUTH]", result)
         # Generic secret pattern: capture the key name and replace value
         result = GENERIC_SECRET_PATTERN.sub(r"\1=[REDACTED_KEY]", result)
         result = JWT_PATTERN.sub("[REDACTED_JWT_TOKEN]", result)

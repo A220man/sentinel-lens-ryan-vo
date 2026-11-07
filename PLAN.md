@@ -62,7 +62,7 @@ Tests: `backend/tests/test_security_auth.py`
 
 ### redaction-pipeline-fixes — Secret redaction pipeline consistency and key matching precision
 
-Status: in_progress
+Status: done
 
 Acceptance:
 - Bearer token redaction produces consistent [REDACTED_CREDENTIAL] marker matching test expectations

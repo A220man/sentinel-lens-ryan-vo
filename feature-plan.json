@@ -81,7 +81,7 @@
     {
       "id": "redaction-pipeline-fixes",
       "title": "Secret redaction pipeline consistency and key matching precision",
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         "Bearer token redaction produces consistent [REDACTED_CREDENTIAL] marker matching test expectations",
         "Redaction is idempotent: re-redacting already redacted text does not change output",
