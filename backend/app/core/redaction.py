@@ -29,8 +29,9 @@ AUTH_HEADER_PATTERN = re.compile(
 BEARER_PATTERN = re.compile(r"(?i)\bbearer\s+[a-zA-Z0-9_\-\.]{12,}\b")
 BASIC_PATTERN = re.compile(r"(?i)\bbasic\s+[a-zA-Z0-9\+/=]{16,}\b")
 # Generic secret pattern: capture the key name in group 1, value in group 2
+# Handles formats: key=value, key: value, "key": "value", 'key': 'value', key="value", key='value'
 GENERIC_SECRET_PATTERN = re.compile(
-    r"(?i)(api[_-]?key|secret[_-]?key|access[_-]?token)\s*[:=]\s*['\"]?([a-zA-Z0-9_\-\.]{16,})['\"]?"
+    r"(?i)[\"']?(api[_-]?key|secret[_-]?key|access[_-]?token)[\"']?\s*[:=]\s*[\"']?([a-zA-Z0-9_\-\.]{16,})[\"']?"
 )
 JWT_PATTERN = re.compile(r"\beyJ[a-zA-Z0-9_\-]{10,}\.eyJ[a-zA-Z0-9_\-]{10,}\.[a-zA-Z0-9_\-]{10,}\b")
 
