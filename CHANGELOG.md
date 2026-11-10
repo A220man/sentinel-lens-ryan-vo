@@ -1,8 +1,15 @@
 # Changelog
 
+## 1.6.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.5.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Improved
+- Generic secret pattern redaction now handles JSON format (`{"api_key": "value"}`) in addition to key=value and key: value formats
 
 ## 1.4.0 — work-in-progress checkpoint
 
