@@ -140,3 +140,18 @@ def test_redact_proxy_authorization_header():
     cleaned = redactor.redact_text(raw)
     assert "proxytok123456789012" not in cleaned
     assert "Bearer [REDACTED_CREDENTIAL]" in cleaned
+
+def test_redact_secret_key_single_quote_format():
+    """Test secret_key pattern with single-quoted value in raw text."""
+    redactor = RedactionFilter()
+    
+    # secret_key='value' format - single quotes wrapping the value
+    raw = "secret_key='supersecret1234567890123456789'"
+    cleaned = redactor.redact_text(raw)
+    assert "supersecret1234567890123456789" not in cleaned
+    assert "[REDACTED_KEY]" in cleaned
+    
+    # Idempotency: re-redacting should not change output
+    first = redactor.redact_text(raw)
+    second = redactor.redact_text(first)
+    assert first == second
