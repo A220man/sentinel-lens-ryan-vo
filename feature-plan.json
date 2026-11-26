@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "redaction-pipeline-fixes",
+  "current_feature": "oidc-issuer-validation-fix",
   "features": [
     {
       "id": "open-session-runner-host",
@@ -93,6 +93,21 @@
       ],
       "tests": [
         "backend/tests/test_redaction.py"
+      ]
+    },
+    {
+      "id": "oidc-issuer-validation-fix",
+      "title": "OIDC bearer token issuer claim validation",
+      "status": "done",
+      "acceptance": [
+        "External OIDC bearer tokens whose issuer claim does not match the configured OIDC issuer are rejected with HTTP 401",
+        "Audience and expiration validation continue to apply unchanged"
+      ],
+      "implementation": [
+        "backend/app/core/security.py"
+      ],
+      "tests": [
+        "backend/tests/test_security_auth.py::test_token_with_wrong_issuer_rejected"
       ]
     }
   ]
