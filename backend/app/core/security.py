@@ -88,6 +88,13 @@ def verify_token(raw_token: str) -> AuthUser:
                     headers={"WWW-Authenticate": "Bearer"},
                 )
 
+        if settings.oidc_issuer_url and payload.get("iss") != settings.oidc_issuer_url:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token issuer",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
         if payload.get("exp") and payload.get("exp") < time.time():
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

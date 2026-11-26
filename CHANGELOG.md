@@ -1,8 +1,15 @@
 # Changelog
 
+## 1.9.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.8.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Fixed
+- OIDC bearer token verification now rejects tokens whose `iss` claim does not match the configured OIDC issuer (previously only audience and expiration were checked)
 
 ## 1.7.0 — work-in-progress checkpoint
 

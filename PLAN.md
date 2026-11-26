@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-redaction-pipeline-fixes
+oidc-issuer-validation-fix
 
 ## Roadmap
 
@@ -73,4 +73,16 @@ Acceptance:
 Implementation: `backend/app/core/redaction.py`
 
 Tests: `backend/tests/test_redaction.py`
+
+### oidc-issuer-validation-fix — OIDC bearer token issuer claim validation
+
+Status: done
+
+Acceptance:
+- External OIDC bearer tokens whose issuer claim does not match the configured OIDC issuer are rejected with HTTP 401
+- Audience and expiration validation continue to apply unchanged
+
+Implementation: `backend/app/core/security.py`
+
+Tests: `backend/tests/test_security_auth.py::test_token_with_wrong_issuer_rejected`
 
